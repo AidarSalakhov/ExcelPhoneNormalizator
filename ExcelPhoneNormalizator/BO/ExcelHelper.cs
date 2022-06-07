@@ -39,6 +39,19 @@ namespace ExcelPhoneNormalizator.BO
             return false;
         }
 
+        //internal void Save()
+        //{
+        //    if (!string.IsNullOrEmpty(_filePath))
+        //    {
+        //        _workbook.SaveAs(_filePath);
+        //        _filePath = null;
+        //    }
+        //    else
+        //    {
+        //        _workbook.Save();
+        //    }
+        //}
+
         internal void Save()
         {
             if (!string.IsNullOrEmpty(_filePath))
@@ -48,7 +61,7 @@ namespace ExcelPhoneNormalizator.BO
             }
             else
             {
-                _workbook.Save();
+                _workbook.SaveCopyAs("Obrabotano.xlsx");
             }
         }
 
@@ -83,6 +96,21 @@ namespace ExcelPhoneNormalizator.BO
                 _excel.Quit();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
+        }
+
+        public void Normalize()
+        {
+
+            for (int i = 1; i < 10; i++)
+            {
+                var val = Get(column: "A", row: i);
+
+                string stringVal = Convert.ToString(val);
+
+                var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
+
+                Set(column: "A", row: i, data: value);
+            }
         }
     }
 
