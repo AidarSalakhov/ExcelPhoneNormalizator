@@ -95,20 +95,33 @@ namespace ExcelPhoneNormalizator
 
                 var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
 
+                Set(column: "B", row: i, data: value);
             }
         }
 
-        public void RemoveDuplicates()
+        public void From8to7()
         {
-            if (value[0] == 7 && value[1] == 9)
+            for (int i = 1; i < 1000; i++)
             {
-                Set(column: "B", row: i, data: value);
-            }
-            else if (value[0] == 8 && value[1] == 9)
-            {
-                value[0] = 7;
-                Set(column: "B", row: i, data: value);
-            }
+                var val = Get(column: "B", row: i);
+
+                StringBuilder stringVal = new StringBuilder(Convert.ToString(val));
+
+                if (stringVal[0] == 7 && stringVal[1] == 9)
+                {
+                    Set(column: "C", row: i, data: stringVal.ToString());
+                }
+                else if (stringVal[0] == 8 && stringVal[1] == 9)
+                {
+                    stringVal[0] = '7';
+                    Set(column: "C", row: i, data: stringVal.ToString());
+                }
+                else
+                {
+                    Set(column: "C", row: i, data: "");
+                }
+                
+            };
         }
     }
 

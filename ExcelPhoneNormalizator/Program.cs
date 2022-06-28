@@ -14,15 +14,25 @@ namespace ExcelPhoneNormalizator
 
             try
             {
+                Console.WriteLine("Запуск программы, подождите...");
+
                 using (ExcelHelper helper = new ExcelHelper())
                 {
                     if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx")))
                     {
-                        Console.WriteLine("Идёт обработка файла...");
+                        Console.WriteLine("Нормализация телефонов...");
 
                         helper.Normalize();
 
+                        Console.WriteLine("Замена кода 8 на 7...");
+
+                        helper.From8to7();
+
+                        Console.WriteLine("Сохранение...");
+
                         helper.Save();
+
+                        Console.WriteLine("Закрытие Excel...");
 
                         helper.Dispose();
 
