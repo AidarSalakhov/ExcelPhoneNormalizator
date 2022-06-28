@@ -33,16 +33,15 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteEntireRow("A1");
 
-
                         helper.Save();
 
                         helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx"));
 
+                        Console.Clear();
+
                         Console.WriteLine($"Количество чистых заявок: {helper.LastRow()}");
 
                         helper.Dispose();
-
-                        
                     }
                 }
             }
