@@ -129,7 +129,7 @@ namespace ExcelPhoneNormalizator
         public void removeDuplicates()
         {
 
-            Excel.Range range = _excel.Range["B1:B100", Type.Missing];
+            Excel.Range range = _excel.Range[$"B1:B{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
 
             range.RemoveDuplicates(_excel.Evaluate(1),
                 Excel.XlYesNoGuess.xlNo);
