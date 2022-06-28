@@ -20,10 +20,14 @@ namespace ExcelPhoneNormalizator
                 {
                     if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx")))
                     {
-                       // Console.WriteLine("Нормализация телефонов...");
-                        //helper.Normalize();
+                        helper.removeDuplicatesA();
 
-                        helper.removeDuplicates();
+                        Console.WriteLine("Нормализация телефонов...");
+                        helper.Normalize();
+
+                        helper.removeDuplicatesB();
+
+                        helper.DeleteColumnA();
 
                         Console.WriteLine("Сохранение...");
                         helper.Save();
