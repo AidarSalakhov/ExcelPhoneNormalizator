@@ -22,20 +22,27 @@ namespace ExcelPhoneNormalizator
                     {
                         helper.removeDuplicatesA();
 
+                        helper.DeleteColumn("B1");
+
                         Console.WriteLine("Нормализация телефонов...");
                         helper.Normalize();
 
                         helper.removeDuplicatesB();
 
-                        helper.DeleteColumnA();
+                        helper.DeleteColumn("A1");
 
-                        Console.WriteLine("Сохранение...");
+                        helper.DeleteEntireRow("A1");
+
+
                         helper.Save();
 
-                        Console.WriteLine("Закрытие Excel...");
+                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx"));
+
+                        Console.WriteLine($"Количество чистых заявок: {helper.LastRow()}");
+
                         helper.Dispose();
 
-                        Console.WriteLine("Готово!");
+                        
                     }
                 }
             }

@@ -113,11 +113,7 @@ namespace ExcelPhoneNormalizator
                         charVal[0] = '7';
                         Set(column: "B", row: i, data: charVal.ToString());
                     }
-                    else
-                    {
-                        Set(column: "B", row: i, data: "");
-                    }
-
+                    
                     Console.WriteLine($"Удачно преобразованая строка {i}");
                 }
                 catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -144,10 +140,23 @@ namespace ExcelPhoneNormalizator
                 Excel.XlYesNoGuess.xlNo);
         }
 
-        public void DeleteColumnA()
+        public void DeleteColumn(string column)
         {
-            Excel.Range range = _excel.get_Range("A1", Type.Missing);
+            Excel.Range range = _excel.get_Range(column, Type.Missing);
             range.EntireColumn.Delete(Type.Missing);
+        }
+
+        public void DeleteEntireRow(string column)
+        {
+            Excel.Range range = _excel.get_Range(column, Type.Missing);
+            range.EntireRow.Delete(Type.Missing);
+        }
+
+        public int LastRow()
+        {
+            int lastRow = _excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row;
+
+            return lastRow;
         }
 
     }
