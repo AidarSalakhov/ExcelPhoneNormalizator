@@ -99,7 +99,11 @@ namespace ExcelPhoneNormalizator
 
                     StringBuilder charVal = new StringBuilder(value);
 
-                    if (charVal[0] == '7' && charVal[1] == '9')
+                    if(charVal.Length != 11)
+                    {
+                        Set(column: "B", row: i, data: "");
+                    }
+                    else if (charVal[0] == '7' && charVal[1] == '9')
                     {
                         Set(column: "B", row: i, data: charVal.ToString());
                     }
