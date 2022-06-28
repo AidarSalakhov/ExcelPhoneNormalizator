@@ -44,7 +44,7 @@ namespace ExcelPhoneNormalizator
         {
             if (!string.IsNullOrEmpty(_filePath))
             {
-                _workbook.SaveAs(_filePath);
+                _workbook.SaveAs("Result.csv");
                 _filePath = null;
             }
             else
