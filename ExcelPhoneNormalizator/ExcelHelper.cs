@@ -123,8 +123,20 @@ namespace ExcelPhoneNormalizator
                 catch (Exception ex) { Console.WriteLine(ex.Message); }
 
             }
+
+        }
+
+        public void removeDuplicates()
+        {
+
+            Excel.Range range = _excel.Range["B1:B100", Type.Missing];
+
+            range.RemoveDuplicates(_excel.Evaluate(1),
+                Excel.XlYesNoGuess.xlNo);
         }
 
     }
+
+    
 
 }
