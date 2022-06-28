@@ -87,42 +87,39 @@ namespace ExcelPhoneNormalizator
         public void Normalize()
         {
 
-            for (int i = 1; i < 1000; i++)
+            for (int i = 1; i < 10; i++)
             {
                 var val = Get(column: "A", row: i);
 
-                string stringVal = Convert.ToString(val);
+                try
+                {
+                    string stringVal = Convert.ToString(val);
 
-                var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
+                    var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
 
-                Set(column: "B", row: i, data: value);
+                    StringBuilder charVal = new StringBuilder(value);
+
+                    if (charVal[0] == '7' && charVal[1] == '9')
+                    {
+                        Set(column: "B", row: i, data: charVal.ToString());
+                    }
+                    else if (charVal[0] == '8' && charVal[1] == '9')
+                    {
+                        charVal[0] = '7';
+                        Set(column: "B", row: i, data: charVal.ToString());
+                    }
+                    else
+                    {
+                        Set(column: "B", row: i, data: "");
+                    }
+
+                    Console.WriteLine($"Удачно преобразованая строка {i}");
+                }
+                catch (Exception ex) { Console.WriteLine(ex.Message); }
+
             }
         }
 
-        public void From8to7()
-        {
-            for (int i = 1; i < 1000; i++)
-            {
-                var val = Get(column: "B", row: i);
-
-                StringBuilder stringVal = new StringBuilder(Convert.ToString(val));
-
-                if (stringVal[0] == 7 && stringVal[1] == 9)
-                {
-                    Set(column: "C", row: i, data: stringVal.ToString());
-                }
-                else if (stringVal[0] == 8 && stringVal[1] == 9)
-                {
-                    stringVal[0] = '7';
-                    Set(column: "C", row: i, data: stringVal.ToString());
-                }
-                else
-                {
-                    Set(column: "C", row: i, data: "");
-                }
-                
-            };
-        }
     }
 
 }

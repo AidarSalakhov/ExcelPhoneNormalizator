@@ -24,10 +24,6 @@ namespace ExcelPhoneNormalizator
 
                         helper.Normalize();
 
-                        Console.WriteLine("Замена кода 8 на 7...");
-
-                        helper.From8to7();
-
                         Console.WriteLine("Сохранение...");
 
                         helper.Save();
