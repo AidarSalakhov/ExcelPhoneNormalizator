@@ -86,8 +86,9 @@ namespace ExcelPhoneNormalizator
 
         public void Normalize()
         {
+            int lastRow = _excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row;
 
-            for (int i = 1; i < 1000; i++)
+            for (int i = 1; i < lastRow; i++)
             {
                 var val = Get(column: "A", row: i);
 
