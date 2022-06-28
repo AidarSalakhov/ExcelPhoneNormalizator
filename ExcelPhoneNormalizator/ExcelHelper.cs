@@ -87,7 +87,7 @@ namespace ExcelPhoneNormalizator
         public void Normalize()
         {
 
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 1000; i++)
             {
                 var val = Get(column: "A", row: i);
 
@@ -101,7 +101,7 @@ namespace ExcelPhoneNormalizator
 
                     if(charVal.Length != 11)
                     {
-                        Set(column: "B", row: i, data: "");
+                        continue;
                     }
                     else if (charVal[0] == '7' && charVal[1] == '9')
                     {
