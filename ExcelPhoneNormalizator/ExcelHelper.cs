@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 
-namespace ExcelPhoneNormalizator.BO
+namespace ExcelPhoneNormalizator
 {
     class ExcelHelper : IDisposable
     {
@@ -39,19 +39,7 @@ namespace ExcelPhoneNormalizator.BO
             return false;
         }
 
-        //internal void Save()
-        //{
-        //    if (!string.IsNullOrEmpty(_filePath))
-        //    {
-        //        _workbook.SaveAs(_filePath);
-        //        _filePath = null;
-        //    }
-        //    else
-        //    {
-        //        _workbook.Save();
-        //    }
-        //}
-
+       
         internal void Save()
         {
             if (!string.IsNullOrEmpty(_filePath))
@@ -61,7 +49,7 @@ namespace ExcelPhoneNormalizator.BO
             }
             else
             {
-                _workbook.SaveCopyAs("Obrabotano.xlsx");
+                _workbook.Save();
             }
         }
 
@@ -69,8 +57,6 @@ namespace ExcelPhoneNormalizator.BO
         {
             try
             {
-                // var val = ((Excel.Worksheet)_excel.ActiveSheet).Cells[row, column].Value2;
-
                 ((Excel.Worksheet)_excel.ActiveSheet).Cells[row, column] = data;
                 return true;
             }
@@ -101,7 +87,7 @@ namespace ExcelPhoneNormalizator.BO
         public void Normalize()
         {
 
-            for (int i = 1; i < 10; i++)
+            for (int i = 1; i < 1000; i++)
             {
                 var val = Get(column: "A", row: i);
 
@@ -109,7 +95,19 @@ namespace ExcelPhoneNormalizator.BO
 
                 var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
 
-                Set(column: "A", row: i, data: value);
+            }
+        }
+
+        public void RemoveDuplicates()
+        {
+            if (value[0] == 7 && value[1] == 9)
+            {
+                Set(column: "B", row: i, data: value);
+            }
+            else if (value[0] == 8 && value[1] == 9)
+            {
+                value[0] = 7;
+                Set(column: "B", row: i, data: value);
             }
         }
     }

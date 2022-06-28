@@ -14,13 +14,19 @@ namespace ExcelPhoneNormalizator
 
             try
             {
-                using (BO.ExcelHelper helper = new BO.ExcelHelper())
+                using (ExcelHelper helper = new ExcelHelper())
                 {
                     if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx")))
                     {
+                        Console.WriteLine("Идёт обработка файла...");
+
                         helper.Normalize();
 
                         helper.Save();
+
+                        helper.Dispose();
+
+                        Console.WriteLine("Готово!");
                     }
                 }
             }
