@@ -18,17 +18,18 @@ namespace ExcelPhoneNormalizator
 
                 using (ExcelHelper helper = new ExcelHelper())
                 {
-                    if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "messages.csv")))
+                    if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                     {
                         helper.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
-                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+                        helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
                         helper.removeDuplicatesA();
 
                         helper.DeleteColumn("B1");
 
                         Console.WriteLine("Нормализация телефонов...");
+
                         helper.Normalize();
 
                         helper.removeDuplicatesB();
