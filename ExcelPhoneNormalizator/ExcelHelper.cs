@@ -39,7 +39,7 @@ namespace ExcelPhoneNormalizator
             return false;
         }
 
-       
+
         internal void Save()
         {
             if (!string.IsNullOrEmpty(_filePath))
@@ -51,6 +51,12 @@ namespace ExcelPhoneNormalizator
             {
                 _workbook.Save();
             }
+        }
+
+        internal void SaveAs()
+        {
+            _workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"), Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            _filePath = null;
         }
 
         internal bool Set(string column, int row, object data)
@@ -100,7 +106,7 @@ namespace ExcelPhoneNormalizator
 
                     StringBuilder charVal = new StringBuilder(value);
 
-                    if(charVal.Length != 11)
+                    if (charVal.Length != 11)
                     {
                         continue;
                     }
@@ -113,7 +119,7 @@ namespace ExcelPhoneNormalizator
                         charVal[0] = '7';
                         Set(column: "B", row: i, data: charVal.ToString());
                     }
-                    
+
                     Console.WriteLine($"Удачно преобразованая строка {i}");
                 }
                 catch (Exception ex) { Console.WriteLine(ex.Message); }
@@ -161,6 +167,6 @@ namespace ExcelPhoneNormalizator
 
     }
 
-    
+
 
 }

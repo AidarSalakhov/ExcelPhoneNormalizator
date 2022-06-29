@@ -18,8 +18,12 @@ namespace ExcelPhoneNormalizator
 
                 using (ExcelHelper helper = new ExcelHelper())
                 {
-                    if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx")))
+                    if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                     {
+                        helper.SaveAs();
+
+                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+
                         helper.removeDuplicatesA();
 
                         helper.DeleteColumn("B1");
@@ -33,9 +37,13 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteEntireRow("A1");
 
+                        helper.DeleteColumn("B1");
+
+                        helper.DeleteEntireRow("A1");
+
                         helper.Save();
 
-                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "ForNormalization.xlsx"));
+                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
                         Console.Clear();
 
