@@ -11,48 +11,37 @@ namespace ExcelPhoneNormalizator
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Запуск программы, подождите...");
 
-            try
-            {
-                Console.WriteLine("Запуск программы, подождите...");
+            ExcelHelper helper = new ExcelHelper();
 
-                using (ExcelHelper helper = new ExcelHelper())
-                {
-                    if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
-                    {
-                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+            helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
 
-                        helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+            helper.DeleteDuplicates("A1:J1");
 
-                        helper.removeDuplicatesA();
+            //helper.DeleteColumn("B1");
 
-                        helper.DeleteColumn("B1");
+            //Console.WriteLine("Нормализация телефонов...");
 
-                        Console.WriteLine("Нормализация телефонов...");
+            //helper.Normalize();
 
-                        helper.Normalize();
+            //helper.removeDuplicatesB();
 
-                        helper.removeDuplicatesB();
+            //helper.DeleteColumn("A1");
 
-                        helper.DeleteColumn("A1");
+            //helper.DeleteEntireRow("A1");
 
-                        helper.DeleteEntireRow("A1");
+            //helper.DeleteColumn("B1");
 
-                        helper.DeleteColumn("B1");
+            //helper.DeleteEntireRow("A1");
 
-                        helper.DeleteEntireRow("A1");
+            helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
 
-                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
+            Console.Clear();
 
-                        Console.Clear();
+            Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
 
-                        Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
-
-                        helper.Dispose();
-                    }
-                }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            helper.Dispose();
         }
     }
 }

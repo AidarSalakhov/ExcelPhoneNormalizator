@@ -127,28 +127,18 @@ namespace ExcelPhoneNormalizator
             }
 
         }
-
-        public void removeDuplicatesB()
+      
+        public void DeleteDuplicates(string column)
         {
+            Excel.Range range = _excel.get_Range(column, Type.Missing);
 
-            Excel.Range range = _excel.Range[$"B1:B{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
-
-            range.RemoveDuplicates(_excel.Evaluate(1),
-                Excel.XlYesNoGuess.xlNo);
-        }
-
-        public void removeDuplicatesA()
-        {
-
-            Excel.Range range = _excel.Range[$"A1:A{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
-
-            range.RemoveDuplicates(_excel.Evaluate(1),
-                Excel.XlYesNoGuess.xlNo);
+            range.EntireColumn.RemoveDuplicates(column, Excel.XlYesNoGuess.xlNo);
         }
 
         public void DeleteColumn(string column)
         {
             Excel.Range range = _excel.get_Range(column, Type.Missing);
+
             range.EntireColumn.Delete(Type.Missing);
         }
 
