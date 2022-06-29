@@ -20,7 +20,7 @@ namespace ExcelPhoneNormalizator
                 {
                     if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                     {
-                        helper.SaveAs();
+                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
                         helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
@@ -41,13 +41,11 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteEntireRow("A1");
 
-                        helper.Save();
-
-                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
 
                         Console.Clear();
 
-                        Console.WriteLine($"Количество чистых заявок: {helper.LastRow()}");
+                        Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
 
                         helper.Dispose();
                     }

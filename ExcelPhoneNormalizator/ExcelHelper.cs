@@ -53,9 +53,9 @@ namespace ExcelPhoneNormalizator
             }
         }
 
-        internal void SaveAs()
+        internal void SaveAs(string filePath)
         {
-            _workbook.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"), Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            _workbook.SaveAs(filePath, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             _filePath = null;
         }
 
@@ -163,6 +163,13 @@ namespace ExcelPhoneNormalizator
             int lastRow = _excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row;
 
             return lastRow;
+        }
+
+        public int LastRealRow()
+        {
+            int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
+
+            return lastRealRow;
         }
 
     }
