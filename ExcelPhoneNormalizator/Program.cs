@@ -17,7 +17,13 @@ namespace ExcelPhoneNormalizator
 
             helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
 
-            helper.DeleteDuplicates("A1:J1");
+            helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads.xlsx"));
+
+            helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+
+            helper.DeleteColumn("A1:E1");
+
+            //helper.DeleteDuplicates("A1:B7");
 
             //helper.DeleteColumn("B1");
 

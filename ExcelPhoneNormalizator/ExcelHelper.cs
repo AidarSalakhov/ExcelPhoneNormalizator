@@ -55,7 +55,7 @@ namespace ExcelPhoneNormalizator
 
         internal void SaveAs(string filePath)
         {
-            _workbook.SaveAs(filePath, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            _workbook.SaveAs(filePath, Excel.XlFileFormat.xlWorkbookDefault, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
             _filePath = null;
         }
 
@@ -132,7 +132,7 @@ namespace ExcelPhoneNormalizator
         {
             Excel.Range range = _excel.get_Range(column, Type.Missing);
 
-            range.EntireColumn.RemoveDuplicates(column, Excel.XlYesNoGuess.xlNo);
+            range.RemoveDuplicates(1, Excel.XlYesNoGuess.xlNo);
         }
 
         public void DeleteColumn(string column)
