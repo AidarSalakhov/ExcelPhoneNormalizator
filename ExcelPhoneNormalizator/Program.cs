@@ -16,50 +16,49 @@ namespace ExcelPhoneNormalizator
             {
                 Console.WriteLine("Запуск программы, подождите...");
 
-                using (ExcelHelper helper = new ExcelHelper())
+                ExcelHelper helper = new ExcelHelper();
+
+                if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                 {
-                    if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
-                    {
-                        helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        helper.Dispose();
+                    helper.Dispose();
 
-                        helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        var value = Convert.ToString(helper.Get("A",2));
-                        
-                        var projectName = string.Join("", value.Where(c => char.IsLetter(c)));
+                    var value = Convert.ToString(helper.Get("A", 2));
 
-                        helper.DeleteColumn("B1:X1");
+                    var projectName = string.Join("", value.Where(c => char.IsLetter(c)));
 
-                        helper.removeDuplicatesA();
+                    helper.DeleteColumn("B1:X1");
 
-                        Console.WriteLine("Нормализация телефонов...");
+                    helper.removeDuplicatesA();
 
-                        helper.Normalize();
+                    Console.WriteLine("Нормализация телефонов...");
 
-                        helper.removeDuplicatesB();
+                    helper.Normalize();
 
-                        helper.DeleteColumn("A1");
+                    helper.removeDuplicatesB();
 
-                        helper.DeleteEntireRow("A1");
+                    helper.DeleteColumn("A1");
 
-                        helper.DeleteColumn("B1");
+                    helper.DeleteEntireRow("A1");
 
-                        helper.SetColumnWidth(1, 18);
+                    helper.DeleteColumn("B1");
 
-                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.LastRealRow()}.xlsx"));
+                    helper.SetColumnWidth(1, 18);
 
-                        File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.LastRealRow()}.xlsx"));
 
-                        File.Delete(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
+                    File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        Console.Clear();
+                    File.Delete(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
 
-                        Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.LastRealRow()}");
+                    Console.Clear();
 
-                        helper.Dispose();
-                    }
+                    Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.LastRealRow()}");
+
+                    helper.Dispose();
                 }
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
