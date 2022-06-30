@@ -26,32 +26,25 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteColumn("B1:I1");
 
-                        //helper.removeDuplicatesA();
+                        helper.removeDuplicatesA();
 
+                        Console.WriteLine("Нормализация телефонов...");
 
+                        helper.Normalize();
 
-                        //Console.WriteLine("Нормализация телефонов...");
-                        //helper.Normalize();
+                        helper.removeDuplicatesB();
 
-                        //helper.removeDuplicatesB();
+                        helper.DeleteColumn("A1");
 
-                        //helper.DeleteColumn("A1");
+                        helper.DeleteEntireRow("A1");
 
-                        //helper.DeleteEntireRow("A1");
+                        helper.DeleteColumn("B1");
 
-                        //helper.DeleteColumn("B1");
+                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
 
-                        //helper.DeleteEntireRow("A1");
+                        Console.Clear();
 
-                        //helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
-
-                        //Console.Clear();
-
-                        //Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
-
-                        //helper.ConvertToXLSX("messages.csv", "leads.xlsx");
-
-                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+                        Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
 
                         helper.Dispose();
                     }

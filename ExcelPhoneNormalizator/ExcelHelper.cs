@@ -44,12 +44,6 @@ namespace ExcelPhoneNormalizator
             _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlNoChange);
         }
 
-
-        internal void SaveAsCSV(string outputFile)
-        {
-            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlNoChange);
-        }
-
         internal void SaveAsXLSX(string outputFile)
         {
             _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
@@ -166,21 +160,6 @@ namespace ExcelPhoneNormalizator
             int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
 
             return lastRealRow;
-        }
-
-        public bool ConvertToXLSX(string inputFile, string outputFile)
-        {
-            try
-            {
-                Excel.Application app = new Excel.Application();
-                Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, inputFile), Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                wb.SaveAs(Path.Combine(Environment.CurrentDirectory, outputFile), Excel.XlFileFormat.xlCSVWindows, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-                wb.Close();
-                app.Quit();
-                return true;
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-            return false;
         }
 
     }
