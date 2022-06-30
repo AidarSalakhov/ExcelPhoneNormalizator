@@ -20,13 +20,13 @@ namespace ExcelPhoneNormalizator
 
                 if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                 {
-                    var projectName = Convert.ToString(helper.Get("A", 2));
-
                     helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
                     helper.Dispose();
 
                     helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+
+                    string projectName = Convert.ToString(helper.Get("A", 2));
 
                     helper.DeleteColumn("B1:X1");
 

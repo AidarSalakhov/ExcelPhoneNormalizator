@@ -41,7 +41,8 @@ namespace ExcelPhoneNormalizator
 
         internal void SaveAsTXT(string outputFile)
         {
-            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
+            //в этой строке поставил Уникодетекст вместе Виндовс текст
+            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive); 
         }
 
         internal void SaveAsXLSX(string outputFile)
