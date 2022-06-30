@@ -26,6 +26,8 @@ namespace ExcelPhoneNormalizator
 
                         helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
+                        var projectName = helper.Get("A",1);
+
                         helper.DeleteColumn("B1:X1");
 
                         helper.removeDuplicatesA();
@@ -52,7 +54,7 @@ namespace ExcelPhoneNormalizator
 
                         Console.Clear();
 
-                        Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
+                        Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.LastRealRow()}");
 
                         helper.Dispose();
                     }
