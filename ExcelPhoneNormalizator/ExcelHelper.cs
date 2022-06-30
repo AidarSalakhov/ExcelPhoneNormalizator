@@ -120,20 +120,14 @@ namespace ExcelPhoneNormalizator
 
         public void removeDuplicatesB()
         {
-
             Excel.Range range = _excel.Range[$"B1:B{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
-
-            range.RemoveDuplicates(_excel.Evaluate(1),
-                Excel.XlYesNoGuess.xlNo);
+            range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
         }
 
         public void removeDuplicatesA()
         {
-
             Excel.Range range = _excel.Range[$"A1:A{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
-
-            range.RemoveDuplicates(_excel.Evaluate(1),
-                Excel.XlYesNoGuess.xlNo);
+            range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
         }
 
         public void DeleteColumn(string column)
@@ -147,18 +141,10 @@ namespace ExcelPhoneNormalizator
             Excel.Range range = _excel.get_Range(column, Type.Missing);
             range.EntireRow.Delete(Type.Missing);
         }
-
-        public int LastRow()
-        {
-            int lastRow = _excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row;
-
-            return lastRow;
-        }
-
+               
         public int LastRealRow()
         {
             int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
-
             return lastRealRow;
         }
 
@@ -166,9 +152,5 @@ namespace ExcelPhoneNormalizator
         {
             _excel.ActiveSheet.Columns[column].ColumnWidth = width;
         }
-
     }
-
-
-
 }
