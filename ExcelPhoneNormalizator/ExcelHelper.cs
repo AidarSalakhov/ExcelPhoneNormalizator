@@ -110,7 +110,7 @@ namespace ExcelPhoneNormalizator
                         Set(column: "B", row: i, data: charVal.ToString());
                     }
 
-                    Console.WriteLine($"Удачно преобразованая строка {i}");
+                    Console.WriteLine($"Удачно преобразованая строка {i} из {lastRow}");
                 }
                 catch (Exception ex) { Console.WriteLine(ex.Message); }
 

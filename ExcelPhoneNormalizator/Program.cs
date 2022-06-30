@@ -26,7 +26,7 @@ namespace ExcelPhoneNormalizator
 
                         helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        var projectName = helper.Get("A",1);
+                        var projectName = helper.Get("A",2);
 
                         helper.DeleteColumn("B1:X1");
 
@@ -46,7 +46,7 @@ namespace ExcelPhoneNormalizator
 
                         helper.SetColumnWidth(1, 18);
 
-                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
+                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.LastRealRow()}.xlsx"));
 
                         File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
