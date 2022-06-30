@@ -25,7 +25,7 @@ namespace ExcelPhoneNormalizator
             {
                 if (File.Exists(filePath))
                 {
-                    _workbook = _excel.Workbooks.Open(filePath);
+                    _workbook = _excel.Workbooks.Open(filePath, Format: 6, Delimiter: ";");
                 }
                 else
                 {
@@ -38,10 +38,16 @@ namespace ExcelPhoneNormalizator
             catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
         }
-                        
+
+        internal void SaveAsTXT(string outputFile)
+        {
+            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlNoChange);
+        }
+
+
         internal void SaveAsCSV(string outputFile)
         {
-            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlCSVWindows, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlNoChange);
         }
 
         internal void SaveAsXLSX(string outputFile)

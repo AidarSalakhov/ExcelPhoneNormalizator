@@ -20,9 +20,15 @@ namespace ExcelPhoneNormalizator
                 {
                     if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                     {
+                        helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+
+                        helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+
+                        helper.DeleteColumn("B1:I1");
+
                         //helper.removeDuplicatesA();
 
-                        //helper.DeleteColumn("B1");
+
 
                         //Console.WriteLine("Нормализация телефонов...");
                         //helper.Normalize();
@@ -45,7 +51,7 @@ namespace ExcelPhoneNormalizator
 
                         //helper.ConvertToXLSX("messages.csv", "leads.xlsx");
 
-                        helper.SaveAsCSV(Path.Combine(Environment.CurrentDirectory, "leads.csv"));
+                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
 
                         helper.Dispose();
                     }
