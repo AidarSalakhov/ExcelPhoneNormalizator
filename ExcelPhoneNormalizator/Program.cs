@@ -18,34 +18,34 @@ namespace ExcelPhoneNormalizator
 
                 using (ExcelHelper helper = new ExcelHelper())
                 {
-                    if (helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "messages.csv")))
+                    if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                     {
-                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+                        //helper.removeDuplicatesA();
 
-                        helper.Open(filePath: Path.Combine(Environment.CurrentDirectory, "leads.xlsx"));
+                        //helper.DeleteColumn("B1");
 
-                        helper.removeDuplicatesA();
+                        //Console.WriteLine("Нормализация телефонов...");
+                        //helper.Normalize();
 
-                        helper.DeleteColumn("B1");
+                        //helper.removeDuplicatesB();
 
-                        Console.WriteLine("Нормализация телефонов...");
-                        helper.Normalize();
+                        //helper.DeleteColumn("A1");
 
-                        helper.removeDuplicatesB();
+                        //helper.DeleteEntireRow("A1");
 
-                        helper.DeleteColumn("A1");
+                        //helper.DeleteColumn("B1");
 
-                        helper.DeleteEntireRow("A1");
+                        //helper.DeleteEntireRow("A1");
 
-                        helper.DeleteColumn("B1");
+                        //helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
 
-                        helper.DeleteEntireRow("A1");
+                        //Console.Clear();
 
-                        helper.SaveAs(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
+                        //Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
 
-                        Console.Clear();
+                        //helper.ConvertToXLSX("messages.csv", "leads.xlsx");
 
-                        Console.WriteLine($"Количество чистых заявок: {helper.LastRealRow()}");
+                        helper.SaveAsCSV(Path.Combine(Environment.CurrentDirectory, "leads.csv"));
 
                         helper.Dispose();
                     }

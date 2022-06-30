@@ -38,25 +38,15 @@ namespace ExcelPhoneNormalizator
             catch (Exception ex) { Console.WriteLine(ex.Message); }
             return false;
         }
-
-
-        internal void Save()
+                        
+        internal void SaveAsCSV(string outputFile)
         {
-            if (!string.IsNullOrEmpty(_filePath))
-            {
-                _workbook.SaveAs(_filePath);
-                _filePath = null;
-            }
-            else
-            {
-                _workbook.Save();
-            }
+            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlCSVWindows, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlNoChange, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
-        internal void SaveAs(string filePath)
+        internal void SaveAsXLSX(string outputFile)
         {
-            _workbook.SaveAs(filePath, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
-            _filePath = null;
+            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
         }
 
         internal bool Set(string column, int row, object data)
@@ -170,6 +160,21 @@ namespace ExcelPhoneNormalizator
             int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
 
             return lastRealRow;
+        }
+
+        public bool ConvertToXLSX(string inputFile, string outputFile)
+        {
+            try
+            {
+                Excel.Application app = new Excel.Application();
+                Excel.Workbook wb = app.Workbooks.Open(Path.Combine(Environment.CurrentDirectory, inputFile), Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                wb.SaveAs(Path.Combine(Environment.CurrentDirectory, outputFile), Excel.XlFileFormat.xlCSVWindows, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+                wb.Close();
+                app.Quit();
+                return true;
+            }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            return false;
         }
 
     }
