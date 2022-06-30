@@ -82,7 +82,7 @@ namespace ExcelPhoneNormalizator
 
         public void Normalize()
         {
-            int lastRow = _excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row;
+            int lastRow = LastRealRow();
 
             for (int i = 1; i < lastRow; i++)
             {

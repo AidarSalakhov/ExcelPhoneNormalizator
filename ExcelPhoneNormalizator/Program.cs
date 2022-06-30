@@ -26,7 +26,7 @@ namespace ExcelPhoneNormalizator
 
                         helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        helper.DeleteColumn("B1:I1");
+                        helper.DeleteColumn("B1:X1");
 
                         helper.removeDuplicatesA();
 
