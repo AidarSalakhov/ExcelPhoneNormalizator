@@ -26,7 +26,9 @@ namespace ExcelPhoneNormalizator
 
                         helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                        var projectName = helper.Get("A",2);
+                        var value = Convert.ToString(helper.Get("A",2));
+                        
+                        var projectName = string.Join("", value.Where(c => char.IsLetter(c)));
 
                         helper.DeleteColumn("B1:X1");
 
