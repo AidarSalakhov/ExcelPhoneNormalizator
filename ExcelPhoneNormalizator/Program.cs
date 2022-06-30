@@ -40,7 +40,13 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteColumn("B1");
 
+                        helper.SetColumnWidth(1, 18);
+
                         helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"leads-count-{helper.LastRealRow()}.xlsx"));
+
+                        File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+
+                        File.Delete(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
 
                         Console.Clear();
 

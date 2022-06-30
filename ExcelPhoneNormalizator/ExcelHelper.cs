@@ -162,6 +162,11 @@ namespace ExcelPhoneNormalizator
             return lastRealRow;
         }
 
+        public void SetColumnWidth(int column, int width)
+        {
+            _excel.ActiveSheet.Columns[column].ColumnWidth = width;
+        }
+
     }
 
 
