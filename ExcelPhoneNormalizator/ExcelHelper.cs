@@ -41,7 +41,7 @@ namespace ExcelPhoneNormalizator
 
         internal void SaveAsTXT(string outputFile)
         {
-            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlNoChange);
+            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlTextWindows, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
         }
 
         internal void SaveAsXLSX(string outputFile)

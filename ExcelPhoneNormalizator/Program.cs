@@ -22,6 +22,8 @@ namespace ExcelPhoneNormalizator
                     {
                         helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
+                        helper.Dispose();
+
                         helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
                         helper.DeleteColumn("B1:I1");
