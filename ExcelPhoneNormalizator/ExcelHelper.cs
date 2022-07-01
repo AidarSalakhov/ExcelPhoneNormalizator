@@ -42,7 +42,7 @@ namespace ExcelPhoneNormalizator
         internal void SaveAsTXT(string outputFile)
         {
             //в этой строке поставил Уникодетекст вместе Виндовс текст
-            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive); 
+            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
         }
 
         internal void SaveAsXLSX(string outputFile)
@@ -89,43 +89,40 @@ namespace ExcelPhoneNormalizator
             {
                 var val = Get(column: "A", row: i);
 
-                try
+                string stringVal = Convert.ToString(val);
+
+                var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
+
+                StringBuilder charVal = new StringBuilder(value);
+
+                if (charVal.Length != 11)
                 {
-                    string stringVal = Convert.ToString(val);
-
-                    var value = string.Join("", stringVal.Where(c => char.IsDigit(c)));
-
-                    StringBuilder charVal = new StringBuilder(value);
-
-                    if (charVal.Length != 11)
-                    {
-                        continue;
-                    }
-                    else if (charVal[0] == '7' && charVal[1] == '9')
-                    {
-                        Set(column: "B", row: i, data: charVal.ToString());
-                    }
-                    else if (charVal[0] == '8' && charVal[1] == '9')
-                    {
-                        charVal[0] = '7';
-                        Set(column: "B", row: i, data: charVal.ToString());
-                    }
-
-                    Console.WriteLine($"Удачно преобразованая строка {i} из {lastRow}");
+                    continue;
                 }
-                catch (Exception ex) { Console.WriteLine(ex.Message); }
+                else if (charVal[0] == '7' || charVal[0] == '8' && charVal[1] == '9')
+                {
+                    charVal[0] = '7';
 
+                    string charValToString = charVal.ToString();
+
+                    if (!IsTooManyRepeatingNumbers(charValToString))
+                    {
+                        Set(column: "B", row: i, data: charValToString);
+                    }
+                }
+
+                Console.WriteLine($"Удачно преобразованая строка {i} из {lastRow}");
             }
 
         }
 
-        public void removeDuplicatesB()
+        public void RemoveDuplicatesB()
         {
             Excel.Range range = _excel.Range[$"B1:B{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
             range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
         }
 
-        public void removeDuplicatesA()
+        public void RemoveDuplicatesA()
         {
             Excel.Range range = _excel.Range[$"A1:A{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
             range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
@@ -142,7 +139,7 @@ namespace ExcelPhoneNormalizator
             Excel.Range range = _excel.get_Range(column, Type.Missing);
             range.EntireRow.Delete(Type.Missing);
         }
-               
+
         public int LastRealRow()
         {
             int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
@@ -152,6 +149,18 @@ namespace ExcelPhoneNormalizator
         public void SetColumnWidth(int column, int width)
         {
             _excel.ActiveSheet.Columns[column].ColumnWidth = width;
+        }
+
+        public bool IsTooManyRepeatingNumbers(string value)
+        {
+            int result = (from v in value select v).GroupBy(g => g).OrderByDescending(o => o.Count()).FirstOrDefault().Count();
+
+            if (result >= 4)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

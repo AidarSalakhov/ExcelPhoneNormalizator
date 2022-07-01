@@ -30,13 +30,13 @@ namespace ExcelPhoneNormalizator
 
                     helper.DeleteColumn("B1:X1");
 
-                    helper.removeDuplicatesA();
+                    helper.RemoveDuplicatesA();
 
                     Console.WriteLine("Нормализация телефонов...");
 
                     helper.Normalize();
 
-                    helper.removeDuplicatesB();
+                    helper.RemoveDuplicatesB();
 
                     helper.DeleteColumn("A1");
 
