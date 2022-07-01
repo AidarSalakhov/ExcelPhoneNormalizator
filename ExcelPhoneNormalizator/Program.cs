@@ -57,6 +57,8 @@ namespace ExcelPhoneNormalizator
                     Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.LastRealRow()}");
 
                     helper.Dispose();
+
+                    Console.ReadLine();
                 }
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
