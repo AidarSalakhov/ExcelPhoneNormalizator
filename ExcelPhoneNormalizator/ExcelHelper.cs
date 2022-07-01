@@ -98,7 +98,7 @@ namespace ExcelPhoneNormalizator
                 {
                     continue;
                 }
-                else if (charVal[0] == '7' && charVal[1] == '9' || charVal[0] == '8' && charVal[1] == '9')
+                else if ((charVal[0] == '7' || charVal[0] == '8') && charVal[1] == '9')
                 {
                     charVal[0] = '7';
 
