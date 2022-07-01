@@ -41,7 +41,6 @@ namespace ExcelPhoneNormalizator
 
         internal void SaveAsTXT(string outputFile)
         {
-            //в этой строке поставил Уникодетекст вместе Виндовс текст
             _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
         }
 
@@ -153,9 +152,7 @@ namespace ExcelPhoneNormalizator
 
         public bool IsTooManyRepeatingNumbers(string value)
         {
-            int result = (from v in value select v).GroupBy(g => g).OrderByDescending(o => o.Count()).FirstOrDefault().Count();
-
-            if (result >= 4)
+            if (value[4] == value[5] && value[5] == value[6] && value[6] == value[7])
             {
                 return true;
             }
