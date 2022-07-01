@@ -74,7 +74,7 @@ namespace ExcelPhoneNormalizator
         {
             try
             {
-                _workbook.Close();
+                _workbook.Close(true);
                 _excel.Quit();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
