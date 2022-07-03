@@ -115,7 +115,7 @@ namespace ExcelPhoneNormalizator
                 if (progress % 5 == 0)
                 {
                     Console.Clear();
-                    Console.Write($"Обработка телефонов: {progress}%");
+                    Console.WriteLine($"Обработка телефонов: {progress}%");
                 }
             }
 
@@ -157,6 +157,12 @@ namespace ExcelPhoneNormalizator
                 return true;
             }
             return false;
+        }
+
+        public string GetProjectName()
+        {
+            string projectName = Convert.ToString(Get("A", 2));
+            return projectName;
         }
     }
 }

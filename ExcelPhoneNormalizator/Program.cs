@@ -11,6 +11,8 @@ namespace ExcelPhoneNormalizator
 {
     internal class Program
     {
+        public static List<OpenedFiles> listOpenedFiles = new List<OpenedFiles>();
+
         static void Main(string[] args)
         {
 
@@ -20,56 +22,76 @@ namespace ExcelPhoneNormalizator
 
                 ExcelOperations helper = new ExcelOperations();
 
-                if (helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
+                string[] files = Directory.GetFiles(Environment.CurrentDirectory, "*.csv");
+
+                Stopwatch stopWatch = new Stopwatch();
+
+                stopWatch.Start();
+
+                for (int i = 0; i < files.Length; i++)
                 {
-                    helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    OpenedFiles openedCsv = new OpenedFiles();
 
-                    helper.Dispose();
+                    openedCsv._index = i + 1;
 
-                    helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    openedCsv._fileName = files[i];
 
-                    string projectName = Convert.ToString(helper.Get("A", 2));
+                    if (helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, files[i])))
+                    {
+                        helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                    helper.DeleteColumn("B1:X1");
+                        helper.Dispose();
 
-                    helper.RemoveDuplicatesFromColumn("A");
+                        helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                    Stopwatch stopWatch = new Stopwatch();
+                        openedCsv._projectName = helper.GetProjectName();
 
-                    stopWatch.Start();
+                        helper.DeleteColumn("B1:X1");
 
-                    helper.Normalize();
+                        helper.RemoveDuplicatesFromColumn("A");
 
-                    helper.RemoveDuplicatesFromColumn("B");
+                        helper.Normalize();
 
-                    helper.DeleteColumn("A1");
+                        helper.RemoveDuplicatesFromColumn("B");
 
-                    helper.DeleteRow("A1");
+                        helper.DeleteColumn("A1");
 
-                    helper.DeleteColumn("B1");
+                        helper.DeleteRow("A1");
 
-                    helper.SetColumnWidth(1, 18);
+                        helper.DeleteColumn("B1");
 
-                    helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.GetLastRow()}.xlsx"));
+                        helper.SetColumnWidth(1, 18);
 
-                    File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                        helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{files[i]}-{helper.GetLastRow()}.xlsx"));
 
-                    File.Delete(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
+                        openedCsv._leadsCont = helper.GetLastRow();
 
-                    stopWatch.Stop();
+                        listOpenedFiles.Add(openedCsv);
 
-                    TimeSpan ts = stopWatch.Elapsed;
+                        File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
-                    string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+                        File.Delete(Path.Combine(Environment.CurrentDirectory, files[i]));
 
-                    Console.Clear();
-
-                    Console.WriteLine($"Обработка прошла успешно. Затраченное время: {elapsedTime}\nПроект: {projectName}\nКоличество чистых заявок: {helper.GetLastRow()}\n");
-
-                    helper.Dispose();
-
-                    Console.ReadLine();
+                        helper.Dispose();
+                    }
                 }
+
+                stopWatch.Stop();
+
+                TimeSpan ts = stopWatch.Elapsed;
+
+                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+
+                Console.WriteLine($"Обработка прошла успешно. Затраченное время: {elapsedTime}");
+
+                for (int i = 0; i < listOpenedFiles.Count; i++)
+                {
+                    OpenedFiles openedCsvNew = new OpenedFiles();
+                    openedCsvNew = listOpenedFiles[i];
+                    openedCsvNew.Print();
+                }
+
+                Console.ReadLine();
             }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
