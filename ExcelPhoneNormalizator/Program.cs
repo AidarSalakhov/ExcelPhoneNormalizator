@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
+using System.Diagnostics;
 
 namespace ExcelPhoneNormalizator
 {
@@ -16,27 +18,29 @@ namespace ExcelPhoneNormalizator
             {
                 Console.WriteLine("Запуск программы, подождите...");
 
-                ExcelHelper helper = new ExcelHelper();
+                ExcelOperations helper = new ExcelOperations();
 
-                if (helper.Open(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
+                if (helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, "messages.csv")))
                 {
                     helper.SaveAsTXT(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
                     helper.Dispose();
 
-                    helper.Open(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
+                    helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
                     string projectName = Convert.ToString(helper.Get("A", 2));
 
                     helper.DeleteColumn("B1:X1");
 
-                    helper.RemoveDuplicatesA();
+                    helper.RemoveDuplicatesFromColumn("A");
 
-                    Console.WriteLine("Нормализация телефонов...");
+                    Stopwatch stopWatch = new Stopwatch();
+
+                    stopWatch.Start();
 
                     helper.Normalize();
 
-                    helper.RemoveDuplicatesB();
+                    helper.RemoveDuplicatesFromColumn("B");
 
                     helper.DeleteColumn("A1");
 
@@ -52,9 +56,15 @@ namespace ExcelPhoneNormalizator
 
                     File.Delete(Path.Combine(Environment.CurrentDirectory, "messages.csv"));
 
+                    stopWatch.Stop();
+
+                    TimeSpan ts = stopWatch.Elapsed;
+
+                    string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+
                     Console.Clear();
 
-                    Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.GetLastRow()}");
+                    Console.WriteLine($"Обработка прошла успешно. Затраченное время: {elapsedTime}\nПроект: {projectName}\nКоличество чистых заявок: {helper.GetLastRow()}\n");
 
                     helper.Dispose();
 

@@ -8,18 +8,18 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ExcelPhoneNormalizator
 {
-    class ExcelHelper : IDisposable
+    class ExcelOperations : IDisposable
     {
         private Excel.Application _excel;
         private Excel.Workbook _workbook;
         private string _filePath;
 
-        public ExcelHelper()
+        public ExcelOperations()
         {
             _excel = new Excel.Application();
         }
 
-        internal bool Open(string filePath)
+        internal bool OpenCSV(string filePath)
         {
             try
             {
@@ -41,12 +41,12 @@ namespace ExcelPhoneNormalizator
 
         internal void SaveAsTXT(string outputFile)
         {
-            _workbook.SaveAs(Filename: outputFile, FileFormat: Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
+            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlUnicodeText, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
         }
 
         internal void SaveAsXLSX(string outputFile)
         {
-            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlOpenXMLWorkbook, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Excel.XlSaveAsAccessMode.xlExclusive, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            _workbook.SaveAs(outputFile, Excel.XlFileFormat.xlOpenXMLWorkbook, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
         }
 
         internal bool Set(string column, int row, object data)
@@ -110,20 +110,20 @@ namespace ExcelPhoneNormalizator
                     }
                 }
 
-                Console.WriteLine($"Удачно преобразованая строка {i} из {lastRow}");
+                double progress = Math.Round((Convert.ToDouble(i) / Convert.ToDouble(lastRow)) * 100);
+
+                if (progress % 5 == 0)
+                {
+                    Console.Clear();
+                    Console.Write($"Обработка телефонов: {progress}%");
+                }
             }
 
         }
 
-        public void RemoveDuplicatesB()
+        public void RemoveDuplicatesFromColumn(string column)
         {
-            Excel.Range range = _excel.Range[$"B1:B{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
-            range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
-        }
-
-        public void RemoveDuplicatesA()
-        {
-            Excel.Range range = _excel.Range[$"A1:A{_excel.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing).Row}", Type.Missing];
+            Excel.Range range = _excel.Range[$"{column}1:{column}{GetLastRow()}", Type.Missing];
             range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
         }
 
@@ -141,7 +141,7 @@ namespace ExcelPhoneNormalizator
 
         public int GetLastRow()
         {
-            int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
+            int lastRealRow = _excel.Cells.Find("*", SearchOrder: Excel.XlSearchOrder.xlByRows, SearchDirection: Excel.XlSearchDirection.xlPrevious, MatchCase: false).Row;
             return lastRealRow;
         }
 
