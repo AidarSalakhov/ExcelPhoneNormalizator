@@ -82,7 +82,7 @@ namespace ExcelPhoneNormalizator
 
         public void Normalize()
         {
-            int lastRow = LastRealRow();
+            int lastRow = GetLastRow();
 
             for (int i = 1; i < lastRow; i++)
             {
@@ -133,13 +133,13 @@ namespace ExcelPhoneNormalizator
             range.EntireColumn.Delete(Type.Missing);
         }
 
-        public void DeleteEntireRow(string column)
+        public void DeleteRow(string column)
         {
             Excel.Range range = _excel.get_Range(column, Type.Missing);
             range.EntireRow.Delete(Type.Missing);
         }
 
-        public int LastRealRow()
+        public int GetLastRow()
         {
             int lastRealRow = _excel.Cells.Find("*", Type.Missing, Type.Missing, Type.Missing, Excel.XlSearchOrder.xlByRows, Excel.XlSearchDirection.xlPrevious, false, Type.Missing, Type.Missing).Row;
             return lastRealRow;
@@ -150,21 +150,13 @@ namespace ExcelPhoneNormalizator
             _excel.ActiveSheet.Columns[column].ColumnWidth = width;
         }
 
-        public bool IsTooManyRepeatingNumbers(string value)
+        private bool IsTooManyRepeatingNumbers(string value)
         {
             if (value[4] == value[5] && value[5] == value[6] && value[6] == value[7])
             {
                 return true;
             }
-
             return false;
         }
-
-        public void Speed()
-        {
-            //speed = speedNow * 0.5 + speedLastHalfMinute * 0.3 + speedLastMinute * 0.2
-        }
-
-
     }
 }

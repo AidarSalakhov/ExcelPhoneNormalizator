@@ -40,13 +40,13 @@ namespace ExcelPhoneNormalizator
 
                     helper.DeleteColumn("A1");
 
-                    helper.DeleteEntireRow("A1");
+                    helper.DeleteRow("A1");
 
                     helper.DeleteColumn("B1");
 
                     helper.SetColumnWidth(1, 18);
 
-                    helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.LastRealRow()}.xlsx"));
+                    helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{helper.GetLastRow()}.xlsx"));
 
                     File.Delete(Path.Combine(Environment.CurrentDirectory, "leads.txt"));
 
@@ -54,7 +54,7 @@ namespace ExcelPhoneNormalizator
 
                     Console.Clear();
 
-                    Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.LastRealRow()}");
+                    Console.WriteLine($"Проект: {projectName}\nКоличество чистых заявок: {helper.GetLastRow()}");
 
                     helper.Dispose();
 
