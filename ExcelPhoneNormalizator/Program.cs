@@ -97,6 +97,11 @@ namespace ExcelPhoneNormalizator
                     OpenedFiles openedCsvNew = new OpenedFiles();
                     openedCsvNew = listOpenedFiles[i];
                     openedCsvNew.Print();
+
+                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._fileName));
+                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._projectName));
+                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._leadsCont));
+                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), "");
                 }
 
                 Console.ReadLine();
