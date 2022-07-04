@@ -16,10 +16,10 @@ namespace ExcelPhoneNormalizator
       
         public void Print()
         {
-                Console.WriteLine($"{_index}) {_fileName})");
+                Console.WriteLine($"{_index}) {_fileName}");
                 Console.WriteLine($"Название проекта: {_projectName}");
                 Console.WriteLine($"Количество заявок: {_leadsCont}\n");
         }
-
+                
     }
 }

@@ -116,6 +116,7 @@ namespace ExcelPhoneNormalizator
                 {
                     Console.Clear();
                     Console.WriteLine($"Обработка телефонов: {progress}%");
+                    Console.WriteLine($"Файл: {Program.index} из {Program.files.Length}");
                 }
             }
 

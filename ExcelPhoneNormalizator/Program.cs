@@ -13,6 +13,10 @@ namespace ExcelPhoneNormalizator
     {
         public static List<OpenedFiles> listOpenedFiles = new List<OpenedFiles>();
 
+        public static string[] files = new string[0];
+
+        public static int index = 0;
+
         static void Main(string[] args)
         {
 
@@ -22,7 +26,7 @@ namespace ExcelPhoneNormalizator
 
                 ExcelOperations helper = new ExcelOperations();
 
-                string[] files = Directory.GetFiles(Environment.CurrentDirectory, "*.csv");
+                files = Directory.GetFiles(Environment.CurrentDirectory, "*.csv");
 
                 Stopwatch stopWatch = new Stopwatch();
 
@@ -33,6 +37,8 @@ namespace ExcelPhoneNormalizator
                     OpenedFiles openedCsv = new OpenedFiles();
 
                     openedCsv._index = i + 1;
+
+                    Program.index = i + 1;
 
                     openedCsv._fileName = files[i];
 
@@ -81,6 +87,8 @@ namespace ExcelPhoneNormalizator
                 TimeSpan ts = stopWatch.Elapsed;
 
                 string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+
+                Console.Clear();
 
                 Console.WriteLine($"Обработка прошла успешно. Затраченное время: {elapsedTime}\n");
 
