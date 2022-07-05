@@ -165,22 +165,5 @@ namespace ExcelPhoneNormalizator
             string projectName = Convert.ToString(Get("A", 2));
             return projectName;
         }
-
-        public static void SaveTextFileNewline(string filePath, string text)
-        {
-            try
-            {
-                using (FileStream fs = new FileStream(filePath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
-                {
-                    StreamWriter write = new StreamWriter(fs);
-                    write.Write(text);
-                    write.Flush();
-                    write.Close();
-                    fs.Close();
-                }
-            }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
-            
-        }
     }
 }
