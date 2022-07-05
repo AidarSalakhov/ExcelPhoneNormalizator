@@ -40,7 +40,7 @@ namespace ExcelPhoneNormalizator
 
                     Program.index = i + 1;
 
-                    openedCsv._fileName = files[i];
+                    openedCsv._fileName = Path.GetFileName(files[i]);
 
                     if (helper.OpenCSV(Path.Combine(Environment.CurrentDirectory, files[i])))
                     {
@@ -98,10 +98,9 @@ namespace ExcelPhoneNormalizator
                     openedCsvNew = listOpenedFiles[i];
                     openedCsvNew.Print();
 
-                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._fileName));
-                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._projectName));
-                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), Convert.ToString(openedCsvNew._leadsCont));
-                    ExcelOperations.SaveTextFileNewline(Path.Combine(Environment.CurrentDirectory, "log.txt"), "");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Файл: {openedCsvNew._fileName}\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Название проекта: {openedCsvNew._projectName}\n");
+                    File.AppendAllText(Path.Combine(Environment.CurrentDirectory, "log.txt"), $"Количество чистых лидов: {openedCsvNew._leadsCont}\n\n");
                 }
 
                 Console.ReadLine();
