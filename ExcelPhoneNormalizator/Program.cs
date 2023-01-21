@@ -46,20 +46,6 @@ namespace ExcelPhoneNormalizator
 
                         openedCsv._projectName = helper.GetProjectName();
 
-                        //helper.DeleteColumn("B1:X1");
-
-                        //helper.RemoveDuplicatesFromColumn("A");
-
-                        //helper.Normalize();
-
-                        //helper.RemoveDuplicatesFromColumn("B");
-
-                        //helper.DeleteColumn("A1");
-
-                        // helper.DeleteRow("A1");
-
-                        //helper.DeleteColumn("B1");
-
                         helper.DeleteColumn("B1:X1");
 
                         helper.DeleteBlankCells("A1");
@@ -68,15 +54,7 @@ namespace ExcelPhoneNormalizator
 
                         helper.DeleteColumn("A1");
 
-                        //helper.DeleteBlankCells("A1");
-
                         helper.GoToTopLeft();
-
-                       // helper.RemoveDuplicatesFromManyColumns("A","CZ");
-
-                        //helper.DeleteRow("A2");
-
-                        //helper.SetColumnWidth(j, 21);
 
                         helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{files[i]}-{helper.GetLastRow()}.xlsx"));
 
