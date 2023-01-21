@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
+using System.Data.Common;
+using Microsoft.Office.Interop.Excel;
 
 namespace ExcelPhoneNormalizator
 {
@@ -127,6 +129,12 @@ namespace ExcelPhoneNormalizator
             range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
         }
 
+        public void RemoveDuplicatesFromManyColumns(string firstColumn, string lastColumn)
+        {
+            Excel.Range range = _excel.Range[$"{firstColumn}1:{lastColumn}{GetLastRow()}", Type.Missing];
+            range.RemoveDuplicates(_excel.Evaluate(1), Excel.XlYesNoGuess.xlNo);
+        }
+
         public void DeleteColumn(string column)
         {
             Excel.Range range = _excel.get_Range(column, Type.Missing);
@@ -163,6 +171,68 @@ namespace ExcelPhoneNormalizator
         {
             string projectName = Convert.ToString(Get("A", 2));
             return projectName;
+        }
+
+        public bool HasOneKavichkuAsLastChar(string input)
+        {
+            if (!string.IsNullOrEmpty(input))
+            {
+                char lastChar = input[input.Length - 1];
+                if (lastChar == '"')
+                {
+                    return input.Count(x => x == '"') == 1;
+                }
+            }
+            return false;
+        }
+
+        public void Transpose()
+        {
+            int startValue = 1;
+
+            int resultValue = 1;
+
+            int lastRow = GetLastRow();
+
+            for (int i = 1; i <= lastRow; i++)
+            {
+                var val = Get(column: "A", row: i);
+
+                string stringVal = Convert.ToString(val);
+
+                if (HasOneKavichkuAsLastChar(stringVal))
+                {
+                    Excel.Range rangeColumn = _excel.Range[$"A{startValue}:A{i}", Type.Missing];
+                    rangeColumn.Copy();
+                    Excel.Range rangeRow = _excel.Range[$"B{resultValue}", Type.Missing];
+                    rangeRow.PasteSpecial(XlPasteType.xlPasteAll,XlPasteSpecialOperation.xlPasteSpecialOperationNone,true,true);
+                    startValue = i+1;
+                    resultValue++;
+                }
+
+                double progress = Math.Round((Convert.ToDouble(i) / Convert.ToDouble(lastRow)) * 100);
+
+                if (progress % 5 == 0)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Обработка файла: {progress}%");
+                }
+            }
+        }
+
+        public void DeleteBlankCells(string column)
+        {
+            Excel.Range range = _excel.Range[column, Type.Missing];
+            Excel.Range blankCells = range.SpecialCells(Excel.XlCellType.xlCellTypeBlanks);
+            Excel.Range rowsToDelete = blankCells.EntireRow;
+            rowsToDelete.Delete(Excel.XlDeleteShiftDirection.xlShiftUp);
+        }
+
+        public void GoToTopLeft()
+        {
+            Excel.Range topLeft = _excel.Range["A1", Type.Missing];
+            topLeft.Select();
+            _excel.Goto(topLeft, Type.Missing);
         }
     }
 }

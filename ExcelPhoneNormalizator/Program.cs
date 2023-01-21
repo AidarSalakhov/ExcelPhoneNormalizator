@@ -46,21 +46,37 @@ namespace ExcelPhoneNormalizator
 
                         openedCsv._projectName = helper.GetProjectName();
 
+                        //helper.DeleteColumn("B1:X1");
+
+                        //helper.RemoveDuplicatesFromColumn("A");
+
+                        //helper.Normalize();
+
+                        //helper.RemoveDuplicatesFromColumn("B");
+
+                        //helper.DeleteColumn("A1");
+
+                        // helper.DeleteRow("A1");
+
+                        //helper.DeleteColumn("B1");
+
                         helper.DeleteColumn("B1:X1");
 
-                        helper.RemoveDuplicatesFromColumn("A");
+                        helper.DeleteBlankCells("A1");
 
-                        helper.Normalize();
-
-                        helper.RemoveDuplicatesFromColumn("B");
+                        helper.Transpose();
 
                         helper.DeleteColumn("A1");
 
-                        helper.DeleteRow("A1");
+                        //helper.DeleteBlankCells("A1");
 
-                        helper.DeleteColumn("B1");
+                        helper.GoToTopLeft();
 
-                        helper.SetColumnWidth(1, 18);
+                       // helper.RemoveDuplicatesFromManyColumns("A","CZ");
+
+                        //helper.DeleteRow("A2");
+
+                        //helper.SetColumnWidth(j, 21);
 
                         helper.SaveAsXLSX(Path.Combine(Environment.CurrentDirectory, $"{files[i]}-{helper.GetLastRow()}.xlsx"));
 
